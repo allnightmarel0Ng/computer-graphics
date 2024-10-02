@@ -11,7 +11,7 @@ using point = std::pair<float, float>;
 template<typename std::size_t Size>
 using point_array = std::array<point, Size>;
 
-point evaluateBezier(float t, const point_array<CONTROL_POINTS> &controlPoints)
+point evaluateBezier(float t, const point_array<CONTROL_POINTS> &controlPoints) noexcept
 {
     auto x = 0.0f, y = 0.0f;
     auto n = controlPoints.size() - 1;
@@ -25,7 +25,7 @@ point evaluateBezier(float t, const point_array<CONTROL_POINTS> &controlPoints)
     return std::make_pair(x, y);
 }
 
-point_array<CURVE_POINTS> computeBezierCurvePoints(const point_array<CONTROL_POINTS> &controlPoints)
+point_array<CURVE_POINTS> computeBezierCurvePoints(const point_array<CONTROL_POINTS> &controlPoints) noexcept
 {
     point_array<CURVE_POINTS> result;
 
@@ -39,7 +39,7 @@ point_array<CURVE_POINTS> computeBezierCurvePoints(const point_array<CONTROL_POI
     return result;
 }
 
-void drawBezierCurve(const point_array<CURVE_POINTS> &bezierCurvePoints)
+void drawBezierCurve(const point_array<CURVE_POINTS> &bezierCurvePoints) noexcept
 {
     glColor3f(1.0f, 1.0f, 1.0f);
     glBegin(GL_LINE_STRIP);
@@ -50,7 +50,7 @@ void drawBezierCurve(const point_array<CURVE_POINTS> &bezierCurvePoints)
     glEnd();
 }
 
-void render(std::size_t index, const point_array<CURVE_POINTS> &bezierCurvePoints)
+void render(std::size_t index, const point_array<CURVE_POINTS> &bezierCurvePoints) noexcept
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -63,12 +63,14 @@ void render(std::size_t index, const point_array<CURVE_POINTS> &bezierCurvePoint
     for (int i = 0; i <= 360; ++i)
     {
         float angle = i * M_PI / 180.0f;
-        glVertex2f(circlePoint.first + 0.05f * std::cos(angle), circlePoint.second + 0.05f * std::sin(angle));
+        float size = 0.05f + (static_cast<float>(index) / 20000);
+        glVertex2f(circlePoint.first + size * std::cos(angle), circlePoint.second + size * std::sin(angle));
     }
     glEnd();
 }
 
-int main() {
+int main()
+{
     sf::ContextSettings settings;
     settings.depthBits = 24;
     settings.stencilBits = 8;
@@ -114,7 +116,7 @@ int main() {
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
             {
                 auto mousePos = sf::Mouse::getPosition(window);
-                if (plusBounds.contains(mousePos.x, mousePos.y) && coefficient < 10)
+                if (plusBounds.contains(mousePos.x, mousePos.y) && coefficient < 7)
                 {
                     coefficient++;
                 }
