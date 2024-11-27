@@ -1,18 +1,9 @@
 cmake_minimum_required(VERSION 3.25)
 project(lab1)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 14)
 
-include(FetchContent)
-
-FetchContent_Declare(
-        sfml
-        GIT_REPOSITORY https://github.com/SFML/SFML.git
-        GIT_TAG 2.5.1
-)
-
-FetchContent_MakeAvailable(sfml)
-
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 find_package(OpenGL REQUIRED)
 
 add_executable(lab1
