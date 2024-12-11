@@ -80,7 +80,8 @@ struct Light
     }
 };
 
-struct Camera {
+struct Camera 
+{
     Vec3 position;
     Vec3 direction;
     float aperture;
@@ -172,7 +173,8 @@ Vec3 traceRayWithDoF(const Vec3 &rayOrigin, const Vec3 &rayDirection, const std:
     return color / camera.samples;
 }
 
-void renderScene(sf::Image &image, const std::vector<Sphere> &spheres, const std::vector<Light> &lights, const Camera &camera) {
+void renderScene(sf::Image &image, const std::vector<Sphere> &spheres, const std::vector<Light> &lights, const Camera &camera) 
+{
     for (int y = 0; y < HEIGHT; ++y) 
     {
         for (int x = 0; x < WIDTH; ++x) 
